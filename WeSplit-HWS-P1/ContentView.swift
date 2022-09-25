@@ -26,6 +26,16 @@ struct ContentView: View {
         return amountPerPerson
     }
     
+    var totalPerPersonWithoutDividing: Double {
+        let peopleCount = Double(numberOfPeople + 2)
+        let tipSelection = Double(tipPercentage)
+        
+        let tipvalue = checkAmount / 100 * tipSelection
+        let grandTotal =  checkAmount + tipvalue
+        
+        return grandTotal
+    }
+    
     var body: some View {
         NavigationView {
             Form {
@@ -54,7 +64,15 @@ struct ContentView: View {
                 }
                 
                 Section{
+                    Text(totalPerPersonWithoutDividing, format: .currency(code: Locale.current.currency?.identifier ?? "IDR"))
+                } header: {
+                    Text("Total Amount before dividing")
+                }
+                
+                Section{
                     Text(totalPerPerson, format: .currency(code: Locale.current.currency?.identifier ?? "IDR"))
+                } header: {
+                    Text("Amount per person")
                 }
             }
             .navigationTitle("WeSplit")
