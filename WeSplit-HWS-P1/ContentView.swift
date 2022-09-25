@@ -13,6 +13,11 @@ struct ContentView: View {
     @State private var tipPercentage: Int = 20
     @FocusState private var amountIsFocused: Bool
     
+    var currencyFormat: FloatingPointFormatStyle<Double>.Currency{
+        let format = Locale.current.currency?.identifier ?? "IDR"
+        return FloatingPointFormatStyle<Double>.Currency(code: format)
+    }
+    
     var totalPerPerson: Double {
         let peopleCount = Double(numberOfPeople + 2)
         let tipSelection = Double(tipPercentage)
@@ -37,7 +42,7 @@ struct ContentView: View {
         NavigationView {
             Form {
                 Section {
-                    TextField("Amount", value: $checkAmount, format: .currency(code: Locale.current.currency?.identifier ?? "IDR"))
+                    TextField("Amount", value: $checkAmount, format: currencyFormat)
                         .keyboardType(.decimalPad)
                         .focused($amountIsFocused)
                     
@@ -61,13 +66,13 @@ struct ContentView: View {
                 }
                 
                 Section{
-                    Text(totalPerPersonWithoutDividing, format: .currency(code: Locale.current.currency?.identifier ?? "IDR"))
+                    Text(totalPerPersonWithoutDividing, format: currencyFormat)
                 } header: {
                     Text("Total Amount before dividing")
                 }
                 
                 Section{
-                    Text(totalPerPerson, format: .currency(code: Locale.current.currency?.identifier ?? "IDR"))
+                    Text(totalPerPerson, format: currencyFormat)
                 } header: {
                     Text("Amount per person")
                 }
